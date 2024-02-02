@@ -28,7 +28,7 @@ if [ ! -d "migrations" ]; then
     python3 -m flask db init
 fi
 
-# Check if sqlite.db does not exists and there is a sqlite-backup.db file
+# Check if sqlite.db does not exist and there is a sqlite-backup.db file
 # . restore from backup before migration
 if [ ! -e "instance/volumes/sqlite.db" ] && [ -e "instance/volumes/sqlite-backup.db" ]; then
     echo "No sqlite.db found, using sqlite-backup.db to generate the file."
@@ -54,9 +54,8 @@ elif [ -e "instance/volumes/sqlite.db" ]; then
     sqlite3 instance/volumes/sqlite.db ".backup ${backup_file}"
 fi
 
-
 # Perform database migrations
-python3 -m flask db migrate
+python3 -m flask db migrate -m "Add fav_food column"
 
 # Perform database upgrade
 python3 -m flask db upgrade
